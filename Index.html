@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times</title>
+</head>
+<body>
+    <h1>Islamic Prayer Times</h1>
+    <input type="text" id="city" placeholder="Enter your city">
+    <button id="getPrayerTimes">Get Prayer Times</button>
+
+    <h2>Prayer Times:</h2>
+    <ul id="prayerTimes"></ul>
+
+    <script>
+        document.getElementById('getPrayerTimes').addEventListener('click', function() {
+            const city = document.getElementById('city').value;
+            const apiKey = '537ed5df36114c29b14cf3237e66c3c5'; // Your OpenCage API key
+            const geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city)}&key=${apiKey}`;
+
+            fetch(geocodeUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results.length > 0) {
+                        const { lat, lng } = data.results[0].geometry;
+                        getPrayerTimes(lat, lng);
+                    } else {
+                        alert('City not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching location:', error);
+                });
+        });
+
+        function getPrayerTimes(lat, lng) {
+            const prayerApiUrl = `http://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2`;
+
+            fetch(prayerApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const times = data.data.timings;
+                    const prayerTimesList = document.getElementById('prayerTimes');
+                    prayerTimesList.innerHTML = ''; // Clear previous times
+
+                    for (const prayer in times) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${prayer}: ${times[prayer]}`;
+                        prayerTimesList.appendChild(listItem);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching prayer times:', error);
+                });
+        }
+    </script>
+</body>
+</html>

@@ -4,14 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayer Times</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            background-color: #f0f0f0; /* Cor de fundo opcional para contraste */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column; /* Coloca os elementos em uma coluna */
+            justify-content: center; /* Centraliza os elementos dentro do contêiner */
+            align-items: center; /* Alinha os itens horizontalmente ao centro */
+            gap: 10px; /* Espaçamento entre os elementos */
+        }
+    </style>
 </head>
 <body>
-    <h1>Islamic Prayer Times</h1>
-    <input type="text" id="city" placeholder="Enter your city">
-    <button id="getPrayerTimes">Get Prayer Times</button>
+    <div class="container">
+        <h1>Islamic Prayer Times</h1>
+        <input type="text" id="city" placeholder="Enter your city">
+        <button id="getPrayerTimes">Get Prayer Times</button>
 
-    <h2>Prayer Times:</h2>
-    <ul id="prayerTimes"></ul>
+        <h2>Prayer Times:</h2>
+        <ul id="prayerTimes"></ul>
+    </div>
 
     <script>
         document.getElementById('getPrayerTimes').addEventListener('click', function() {
